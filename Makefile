@@ -48,16 +48,10 @@ ${MASS}: clean ${DIST_DIR}
 	
 	@for file in ${BASE_FILES}; do \
 		cat $(addprefix ${SRC_DIR}/, ${BASE_FILES}) | \
+			sed 's/\/\*combine modules\*\//var module_value = { state:2 }; var list = "ecma,lang,spec,support,class,data,query,node,css_ie,css,dispatcher,event,attr,fx,ajax".match(dom.rword); for(var i=0, module;module = list[i++];){ map["@"+module] = module_value;}/' | \
 	   		sed 's/})(this,this.document);//' \
 			> ${MASS}; \
 	done
-	@echo 'var module_value = { \
-        state:2 \
-    }; \
-    var list = "ecma,lang,spec,support,class,data,query,node,css_ie,css,dispatcher,event,attr,fx,ajax".match(dom.rword); \
-    for(var i=0, module;module = list[i++];){ \
-        map["@"+module] = module_value; \
-    }' >> ${MASS};
 	@echo '})(this,this.document);' >> ${MASS};
 
 ${MASS_MIN}: ${MASS} 
