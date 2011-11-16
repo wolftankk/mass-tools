@@ -1,0 +1,3 @@
+[submodule "massframework"]
+	path = massframework
+	url = git://github.com/RubyLouvre/mass-Framework.git
