@@ -39,7 +39,7 @@ ${DIST_DIR}:
 
 mass: $(MASS)
 
-all: update_submodules
+all: update_submodules ${MASS}
 
 #cat $$file > ${DIST_DIR};
 ${MASS}: ${DIST_DIR}
