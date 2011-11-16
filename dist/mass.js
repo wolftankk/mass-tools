@@ -221,7 +221,7 @@
     }
     //凡是通过iframe加载回来的模块函数都要经过它进行转换
     function safeEval(fn, args, str){
-        for(var i = 0,argv = [dom], name; name = args[i++];){
+        for(var i = 0,argv = [], name; name = args[i++];){
             argv.push(rets[name]);
         }//如果是同一执行环境下，就不用再eval了
         if(fn instanceof Function){
@@ -276,7 +276,7 @@
                     cn++;
                 }
                 if(!_deps[name] ){
-                    name !== "@ready" && args.push(name);
+                   args.push(name);
                     _deps[name] = "司徒正美";//去重，去掉@ready
                 }
                 
@@ -385,7 +385,7 @@
         dom.exports();
     });
     dom.exports("dom"+postfix);//防止不同版本的命名空间冲突
-    
+     
 	var module_value = {
 		state: 2
 	}
@@ -396,7 +396,7 @@
 
 //数据请求模块
 
-dom.define("ajax","node,emitter", function(){
+dom.define("ajax","node,dispatcher", function(){
     //dom.log("已加载ajax模块");
     var global = this, DOC = global.document, r20 = /%20/g,
     rCRLF = /\r?\n/g,
@@ -1085,8 +1085,8 @@ dom.define("ajax","node,emitter", function(){
 //对XMLHttpRequest.abort进行try...catch
 
 
-dom.define("attr","support,node", function($,support){
-    //dom.log("已加载attr模块")
+dom.define("attr","support,node", function(support){
+   // dom.log("已加载attr模块")
     var global = this, DOC = global.document, rclass = /(^|\s)(\S+)(?=\s(?:\S+\s)*\2(?:\s|$))/g,rreturn = /\r/g,
     rfocusable = /^(?:button|input|object|select|textarea)$/i,
     rclickable = /^a(?:rea)?$/i,
@@ -4574,7 +4574,7 @@ dom.define("lang", (Array.isArray && Object.create ? "" : "ecma"), function(){
 // 节点操作模块 by 司徒正美
 //=========================================
   
-dom.define("node", "ready,lang,support,class,query,data",function(dom,lang,support){
+dom.define("node", "lang,support,class,query,data,ready",function(lang,support){
     //dom.log("已加载node模块");
     var global = this, DOC = global.document, rtag = /^[a-zA-Z]+$/, TAGS = "getElementsByTagName";
     function getDoc(){
@@ -6390,6 +6390,7 @@ dom.define("support", function(){
 2011.9.23增加fastFragment判定
 */
 
+
 })(this,this.document);
 /**
  2011.7.11
@@ -6426,7 +6427,8 @@ dom.namespace改为dom["@name"]
 2011.10.20 添加error方法，重构log方法
 2011.11.6  重构uuid的相关设施
 2011.11.11 多版本共存
-   
+
+
  */
 
 
