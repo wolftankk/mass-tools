@@ -56,7 +56,7 @@ ${MASS}: clean ${DIST_DIR}
 ${MASS_MIN}: ${MASS} 
 	@@if test ! -z ${JAVA_ENGINE}; then \
 		echo "Minifying " ${MASS_MIN}; \
-		${COMPILER} --js ${MASS} --js_output_file ${MASS_MIN}; \
+		${COMPILER} --jscomp_off=internetExplorerChecks --js ${MASS} --js_output_file ${MASS_MIN}; \
 	fi
 
 min: ${MASS_MIN} 
