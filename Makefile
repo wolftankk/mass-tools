@@ -7,7 +7,7 @@ JAVA_ENGINE ?= `which java`
 COMPILER = ${JAVA_ENGINE} -jar ${BUILD_DIR}/compiler.jar
 
 #这里按照依照关系排列
-BASE_FILES = dom.js\
+BASE_FILES = dom.js \
 			 ecma.js\
 			 ajax.js\
 			 attr.js\
@@ -39,19 +39,19 @@ ${DIST_DIR}:
 
 mass: $(MASS)
 
-all: update_submodules ${MASS}
-
-#cat $$file > ${DIST_DIR};
-${MASS}: ${DIST_DIR}
-	@for file in $(basename ${BASE_FILES}); do \
-		cat ${SRC_DIR}/$$file.js > ${DIST_DIR}/$$file.js; \
-		if test ! -z ${JAVA_ENGINE}; then \
-			echo "Minifying " $$file.min.js; \
-			${COMPILER} --js ${SRC_DIR}/$$file.js --js_output_file ${DIST_DIR}/$$file.min.js; \
-		fi \
-	done
+all: update_submodules minfiles
 
 build: ${MASS}
+
+${MASS}: clean ${DIST_DIR}
+	@@echo "Building " ${MASS}
+	
+	@for file in ${BASE_FILES}; do \
+		cat $(addprefix ${SRC_DIR}/, ${BASE_FILES}) | \
+	   		sed 's/})(this,this.document);//' \
+			> ${MASS}; \
+	done
+	@echo '})(this,this.document);' >> ${MASS};
 
 update_submodules:
 	@if [ -d .git ]; then\
