@@ -43,10 +43,6 @@ all: update_submodules minfiles
 
 build: ${MASS}
 
-comma := ,
-empty :=
-space := $(empty) $(empty)
-
 ${MASS}: clean ${DIST_DIR}
 	@@echo "Building " ${MASS}
 	
@@ -56,8 +52,14 @@ ${MASS}: clean ${DIST_DIR}
 			> ${MASS}; \
 	done
 	@echo '})(this,this.document);' >> ${MASS};
-	@echo $(subst $(space), $(comma), $(strip $(basename ${BASE_FILES})));
 
+${MASS_MIN}: ${MASS} 
+	@@if test ! -z ${JAVA_ENGINE}; then \
+		echo "Minifying " ${MASS_MIN}; \
+		${COMPILER} --js ${MASS} --js_output_file ${MASS_MIN}; \
+	fi
+
+min: ${MASS_MIN} 
 
 update_submodules:
 	@if [ -d .git ]; then\

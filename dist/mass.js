@@ -385,7 +385,7 @@
         dom.exports();
     });
     dom.exports("dom"+postfix);//防止不同版本的命名空间冲突
-    
+    /*combine modules*/
 
 /**
  2011.7.11
