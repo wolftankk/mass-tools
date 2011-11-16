@@ -6421,4 +6421,5 @@ dom.define("support", function(){
 2011.9.16所有延时判定的部分现在可以立即判定了
 2011.9.23增加fastFragment判定
 */
+var module_value = {         state:2     };     var list = "ecma,lang,spec,support,class,data,query,node,css_ie,css,dispatcher,event,attr,fx,ajax".match(dom.rword);     for(var i=0, module;module = list[i++];){         map["@"+module] = module_value;     }
 })(this,this.document);
