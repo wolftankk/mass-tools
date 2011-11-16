@@ -7,21 +7,21 @@ JAVA_ENGINE ?= `which java`
 COMPILER = ${JAVA_ENGINE} -jar ${BUILD_DIR}/compiler.jar
 
 #这里按照依照关系排列
-BASE_FILES = ${SRC_DIR}/dom.js\
-			 ${SRC_DIR}/ecma.js\
-			 ${SRC_DIR}/ajax.js\
-			 ${SRC_DIR}/attr.js\
-			 ${SRC_DIR}/class.js\
-			 ${SRC_DIR}/css.js\
-			 ${SRC_DIR}/css_ie.js\
-			 ${SRC_DIR}/data.js\
-			 ${SRC_DIR}/dispatcher.js\
-			 ${SRC_DIR}/event.js\
-			 ${SRC_DIR}/fx.js\
-			 ${SRC_DIR}/lang.js\
-			 ${SRC_DIR}/node.js\
-			 ${SRC_DIR}/query.js\
-			 ${SRC_DIR}/support.js
+BASE_FILES = dom.js\
+			 ecma.js\
+			 ajax.js\
+			 attr.js\
+			 class.js\
+			 css.js\
+			 css_ie.js\
+			 data.js\
+			 dispatcher.js\
+			 event.js\
+			 fx.js\
+			 lang.js\
+			 node.js\
+			 query.js\
+			 support.js
 
 MODULES = ${BASE_FILES}
 
@@ -37,7 +37,21 @@ DATE = $(shell git log -l --pretty=format:%ad)
 ${DIST_DIR}:
 	@@mkdir -p ${DIST_DIR}
 
+mass: $(MASS)
+
 all: update_submodules
+
+#cat $$file > ${DIST_DIR};
+${MASS}: ${DIST_DIR}
+	@for file in $(basename ${BASE_FILES}); do \
+		cat ${SRC_DIR}/$$file.js > ${DIST_DIR}/$$file.js; \
+		if test ! -z ${JAVA_ENGINE}; then \
+			echo "Minifying " $$file.min.js; \
+			${COMPILER} --js ${SRC_DIR}/$$file.js --js_output_file ${DIST_DIR}/$$file.min.js; \
+		fi \
+	done
+
+build: ${MASS}
 
 update_submodules:
 	@if [ -d .git ]; then\
