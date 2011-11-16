@@ -1,3 +1,0 @@
-[submodule "src/mass"]
-	path = src/mass
-	url = git://github.com/RubyLouvre/mass-Framework.git
